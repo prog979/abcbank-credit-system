@@ -93,18 +93,29 @@ public class CreditOfferEditUI extends VerticalLayout {
             setCreditOffer(creditOffer);
             update.setVisible(true);
             delete.setVisible(true);
-            addPaymentGraphic.setVisible(true);
-            deletePaymentGraphic.setVisible(true);
-            showPaymentGraphic.setVisible(true);
             add.setVisible(false);
             calculateSum.setVisible(false);
             itog.setVisible(true);
             creditOfferView.paymentGrid.setVisible(false);
             calculateItog();
+            try {
+                if (paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
+                    addPaymentGraphic.setVisible(true);
+                    deletePaymentGraphic.setVisible(false);
+                    showPaymentGraphic.setVisible(false);
+                }else                 {
+                    addPaymentGraphic.setVisible(false);
+                    deletePaymentGraphic.setVisible(true);
+                    showPaymentGraphic.setVisible(true);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
-        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Поле введено неверно"))
+        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(
+                "Срок выплаты должен быть больше нуля "))
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
-        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Поле введено неверно"))
+        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Срок выплаты должен быть больше нуля "))
                 .withValidator(event -> (event > 0), "Срок выплаты должен быть больше нуля ")
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
         creditSum.setPlaceholder("Введите сумму кредита");
@@ -118,10 +129,12 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditSelect.setItemCaptionGenerator(Credit::getCreditName);
         creditSelect.addValueChangeListener(valueChangeEvent -> {
             if (creditSelect.getValue() == null)
-                binder.forField(creditSum).withConverter(new StringToLongConverter("Поле введено неверно"))
+                binder.forField(creditSum).withConverter(new StringToLongConverter(
+                        "Сумма должна быть больше нуля, и не выше лимита"))
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             else {
-                binder.forField(creditSum).withConverter(new StringToLongConverter("Поле введено неверно"))
+                binder.forField(creditSum).withConverter(new StringToLongConverter(
+                        "Сумма должна быть больше нуля, и не выше лимита"))
                         .withValidator(event -> (event > 0 && event <= creditSelect.getValue().getCreditLimit()),
                                 "Сумма должна быть больше нуля, и не выше " + creditSelect.getValue().getCreditLimit())
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum)
@@ -275,7 +288,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            if (paimentRest < creditMonhtPayment) {
+            if (paimentRest < creditMonhtPayment || month==creditOffer.getMonthsOfCredit()) {
                 creditMonhtPayment = Math.round(paimentRest + paimentRest * creditMonhtPercent);
             }
             paymentGraphic.setPaymentRest(paimentRest);
