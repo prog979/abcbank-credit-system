@@ -93,7 +93,6 @@ public class CreditOfferEditUI extends VerticalLayout {
             setCreditOffer(creditOffer);
             update.setVisible(true);
             delete.setVisible(true);
-            delete.setComponentError(new UserError(null));
             addPaymentGraphic.setVisible(true);
             deletePaymentGraphic.setVisible(true);
             showPaymentGraphic.setVisible(true);
@@ -169,13 +168,15 @@ public class CreditOfferEditUI extends VerticalLayout {
         delete.addClickListener(event -> {
             try {
                 if (paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
-                    creditOfferService.deleteCreditOffer(creditOffer);
+                    deleteCreditOffer();
+//                    creditOfferService.deleteCreditOffer(creditOffer);
                     creditOfferView.updateGrid();
                     this.setVisible(false);
-                    clear();
                     delete.setComponentError(new UserError(null));
+                    clear();
                 } else {
                     delete.setComponentError(new UserError("По кредитному договору существует график платежей"));
+
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -208,6 +209,7 @@ public class CreditOfferEditUI extends VerticalLayout {
                     for (int i = 0; i < paymentGraphicList.size(); i++) {
                         paymentGraphicService.deletePaymentGraphic(paymentGraphicList.get(i));
                     }
+                    //                 delete.setComponentError(new UserError(null));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -302,6 +304,11 @@ public class CreditOfferEditUI extends VerticalLayout {
     private void updateCreditOffer() throws SQLException {
         this.creditOffer = getCreditOffer();
         creditOfferService.updateCreditOffer(creditOffer);
+    }
+
+    private void deleteCreditOffer() throws SQLException {
+        this.creditOffer = getCreditOffer();
+        creditOfferService.deleteCreditOffer(creditOffer);
     }
 
     private void clear() {

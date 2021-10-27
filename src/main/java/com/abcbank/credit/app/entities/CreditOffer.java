@@ -21,7 +21,7 @@ public class CreditOffer {
 
 	private Long creditSum;
 	private Long monthsOfCredit;
-	@OneToMany(mappedBy = "creditOffer", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "creditOffer", fetch = FetchType.EAGER)
 	private Set<PaymentGraphic> payment_graphics;
 
 	public Long getMonthsOfCredit() {

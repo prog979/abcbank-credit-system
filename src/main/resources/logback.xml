@@ -26,10 +26,10 @@
 
     </appender>
 
-    <logger name="org.hibernate.SQL" level="INFO" />
-    <logger name="org.hibernate.type.descriptor.sql" level="INFO" />
+    <logger name="org.hibernate.SQL" level="ERROR" />
+    <logger name="org.hibernate.type.descriptor.sql" level="ERROR" />
 
-    <root level="INFO">
+    <root level="ERROR">
         <appender-ref ref="FILE" />
         <appender-ref ref="STDOUT" />
     </root>
