@@ -84,11 +84,11 @@ public class CreditOfferView extends VerticalLayout {
         creditGrid.setWidth("800");
         creditGrid.removeColumn("client");
         creditGrid.removeColumn("credit");
-//        creditGrid.setColumns("creditSum", "monthsOfCredit");
+//        creditGrid.setColumns("creditSum", "monthsOfCredit");git
         creditGrid.setColumns();
         creditGrid.addColumn(client -> client.getClient().getInitials()).setCaption("Клиент");
         creditGrid.addColumn(CreditOffer::getCreditSum).setCaption("Сумма договора");
-        creditGrid.addColumn(CreditOffer::getMonthsOfCredit).setCaption("Процент");
+        creditGrid.addColumn(CreditOffer::getMonthsOfCredit).setCaption("Срок выплат");
         creditGrid.addColumn(credit -> credit.getCredit().getCreditName()).setCaption("Вид кредита");
         List<CreditOffer> credits = creditOfferService.getAllCreditOffers();
         creditGrid.setItems(credits);

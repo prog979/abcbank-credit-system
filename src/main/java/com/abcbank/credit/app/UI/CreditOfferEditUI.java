@@ -28,7 +28,7 @@ import java.util.List;
 
 public class CreditOfferEditUI extends VerticalLayout {
     private TextField creditSum = new TextField("Сумма кредита");
-    private TextField monthsOfCredit = new TextField("Срок выплаты в месяцах");
+    private TextField monthsOfCredit = new TextField("Срок выплат (месяцы)");
     private ComboBox<Client> clientSelect = new ComboBox<>("Клиент");
     private ComboBox<Credit> creditSelect = new ComboBox<>("Кредит");
     private Label itog = new Label("");
@@ -37,7 +37,7 @@ public class CreditOfferEditUI extends VerticalLayout {
     private Button delete = new Button("Удалить");
     private Button update = new Button("Изменить");
     private Button addPaymentGraphic = new Button("Сформировать график платежей");
-    private Button showPaymentGraphic = new Button("Просмотреть график платежей");
+    private Button showPaymentGraphic = new Button("Посмотреть график платежей");
     private Button deletePaymentGraphic = new Button("Удалить график платежей");
     private Button calculateSum = new Button("Рассчитать итоговую сумму кредита");
     private CreditOffer creditOffer;
