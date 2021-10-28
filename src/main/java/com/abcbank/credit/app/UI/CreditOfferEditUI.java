@@ -103,7 +103,7 @@ public class CreditOfferEditUI extends VerticalLayout {
                     addPaymentGraphic.setVisible(true);
                     deletePaymentGraphic.setVisible(false);
                     showPaymentGraphic.setVisible(false);
-                }else                 {
+                } else {
                     addPaymentGraphic.setVisible(false);
                     deletePaymentGraphic.setVisible(true);
                     showPaymentGraphic.setVisible(true);
@@ -113,7 +113,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             }
         }
         binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(
-                "Срок выплаты должен быть больше нуля "))
+                        "Срок выплаты должен быть больше нуля "))
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
         binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Срок выплаты должен быть больше нуля "))
                 .withValidator(event -> (event > 0), "Срок выплаты должен быть больше нуля ")
@@ -130,11 +130,11 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditSelect.addValueChangeListener(valueChangeEvent -> {
             if (creditSelect.getValue() == null)
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                        "Сумма должна быть больше нуля, и не выше лимита"))
+                                "Сумма должна быть больше нуля, и не выше лимита"))
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             else {
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                        "Сумма должна быть больше нуля, и не выше лимита"))
+                                "Сумма должна быть больше нуля, и не выше лимита"))
                         .withValidator(event -> (event > 0 && event <= creditSelect.getValue().getCreditLimit()),
                                 "Сумма должна быть больше нуля, и не выше " + creditSelect.getValue().getCreditLimit())
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum)
@@ -219,17 +219,14 @@ public class CreditOfferEditUI extends VerticalLayout {
                 if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
                     paymentGraphicList = new ArrayList<>();
                     paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
-                    for (int i = 0; i < paymentGraphicList.size(); i++) {
-                        paymentGraphicService.deletePaymentGraphic(paymentGraphicList.get(i));
+                    for (PaymentGraphic pg : paymentGraphicList) {
+                        paymentGraphicService.deletePaymentGraphic(pg);
                     }
-                    //                 delete.setComponentError(new UserError(null));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
-
-
     }
 
     private boolean fieldCheck() {
@@ -261,7 +258,8 @@ public class CreditOfferEditUI extends VerticalLayout {
             creditSum = Long.parseLong(this.creditSum.getValue());
             percents = creditSelect.getValue().getPercent();
             Long creditBody = creditSum / 100 * (100 + percents);
-            itog.setValue("Итоговая сумма с учетом процентов: " + creditBody + " ,  Сумма процентов: " + (creditBody - creditSum));
+            itog.setValue("Итоговая сумма с учетом процентов: " + creditBody + " ,  " +
+                    "Сумма процентов: " + (creditBody - creditSum));
         } catch (Exception ex) {
             System.out.println("error");
         }
@@ -288,7 +286,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            if (paimentRest < creditMonhtPayment || month==creditOffer.getMonthsOfCredit()) {
+            if (paimentRest < creditMonhtPayment || month == creditOffer.getMonthsOfCredit()) {
                 creditMonhtPayment = Math.round(paimentRest + paimentRest * creditMonhtPercent);
             }
             paymentGraphic.setPaymentRest(paimentRest);

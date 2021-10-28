@@ -86,6 +86,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
     @Override
     public void deletePaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
         Session session = null;
+        List paymentGraphics = new ArrayList<PaymentGraphic>();
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
