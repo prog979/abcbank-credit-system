@@ -91,9 +91,11 @@ public class CreditOfferEditUI extends VerticalLayout {
         } else {
             this.creditOffer = creditOffer;
             setCreditOffer(creditOffer);
-            update.setVisible(true);
-            delete.setVisible(true);
             add.setVisible(false);
+            update.setVisible(true);
+            update.setComponentError(null);
+            delete.setVisible(true);
+            delete.setComponentError(null);
             calculateSum.setVisible(false);
             itog.setVisible(true);
             creditOfferView.paymentGrid.setVisible(false);
@@ -182,14 +184,12 @@ public class CreditOfferEditUI extends VerticalLayout {
             try {
                 if (paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
                     deleteCreditOffer();
-//                    creditOfferService.deleteCreditOffer(creditOffer);
                     creditOfferView.updateGrid();
                     this.setVisible(false);
-                    delete.setComponentError(new UserError(null));
                     clear();
-                } else {
-                    delete.setComponentError(new UserError("По кредитному договору существует график платежей"));
 
+                }else{
+                    delete.setComponentError(new UserError("По этому договору существует график платежей"));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
