@@ -19,7 +19,7 @@
     <repositories>
         <repository>
             <id>vaadin-addons</id>
-            <url>http://maven.vaadin.com/vaadin-addons</url>
+            <url>https://maven.vaadin.com/vaadin-addons</url>
         </repository>
     </repositories>
 
@@ -83,18 +83,7 @@
             <artifactId>vaadin-themes</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.vaadin.addons</groupId>-->
-<!--            <artifactId>maskedtextfield</artifactId>-->
-<!--            <version>0.1.6</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.vaadin.addons</groupId>-->
-<!--            <artifactId>inputmask</artifactId>-->
-<!--            <version>1.0.2</version>-->
-<!--        </dependency>-->
-    </dependencies>
+  </dependencies>
 
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
