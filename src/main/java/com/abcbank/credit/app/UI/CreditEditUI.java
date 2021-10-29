@@ -59,6 +59,7 @@ public class CreditEditUI extends VerticalLayout {
             this.credit = credit;
             setCredit(credit);
             update.setVisible(true);
+            update.setComponentError(null);
             delete.setVisible(true);
             delete.setComponentError(null);
             add.setVisible(false);
@@ -87,24 +88,29 @@ public class CreditEditUI extends VerticalLayout {
         update.addClickListener(event -> {
             try {
                 if (fieldCheck()) {
-                    updateCredit();
-                    creditView.updateGrid();
-                    this.setVisible(false);
-                    clear();
+                    if (creditOfferExistChecker(credit)) {
+                        updateCredit();
+                        creditView.updateGrid();
+                        this.setVisible(false);
+                        clear();
+                    } else update.setComponentError(new UserError(
+                            "По этому виду кредита есть действующие кредитные договоры"));
                 }
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
         delete.addClickListener(event -> {
             try {
-                if (creditOfferService.getCreditOfferByCredit(credit).isEmpty()) {
-                creditService.deleteCredit(credit);
-                creditView.updateGrid();
-                this.setVisible(false);
-                clear();}
-                else {
-                    delete.setComponentError(new UserError("По этому виду кредита есть действующие кредитные договоры"));
+                if (creditOfferExistChecker(credit)) {
+                    creditService.deleteCredit(credit);
+                    creditView.updateGrid();
+                    this.setVisible(false);
+                    clear();
+                } else {
+                    delete.setComponentError(new UserError(
+                            "По этому виду кредита есть действующие кредитные договоры"));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -113,11 +119,11 @@ public class CreditEditUI extends VerticalLayout {
     }
 
     private boolean fieldCheck() {
-        if (creditNameField.isEmpty() || creditPercent.isEmpty() || creditLimit.isEmpty()){
+        if (creditNameField.isEmpty() || creditPercent.isEmpty() || creditLimit.isEmpty()) {
             add.setComponentError(new UserError("Поля введены неверно"));
             update.setComponentError(new UserError("Поля введены неверно"));
             return false;
-        }else
+        } else
             try {
                 if (Integer.parseInt(creditPercent.getValue()) <= 0 || Integer.parseInt(creditLimit.getValue()) <= 0) {
                     add.setComponentError(new UserError("Поля введены неверно"));
@@ -148,6 +154,18 @@ public class CreditEditUI extends VerticalLayout {
         creditLimit.clear();
     }
 
+    private boolean creditOfferExistChecker(Credit credit) {
+        this.credit = credit;
+        try {
+            if (creditOfferService.getCreditOfferByCredit(credit).isEmpty()) {
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
     private Credit getCredit() {
         credit.setCreditName(creditNameField.getValue());
         credit.setPercent(Integer.parseInt(creditPercent.getValue()));
@@ -160,5 +178,5 @@ public class CreditEditUI extends VerticalLayout {
         creditPercent.setValue(String.valueOf(credit.getPercent()));
         creditLimit.setValue(String.valueOf(credit.getCreditLimit()));
     }
-
 }
+
