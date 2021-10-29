@@ -2,7 +2,6 @@ package com.abcbank.credit.app.UI;
 
 
 import com.abcbank.credit.app.entities.Client;
-import com.abcbank.credit.app.entities.CreditOffer;
 import com.abcbank.credit.app.service.ClientService;
 import com.abcbank.credit.app.service.CreditOfferService;
 import com.vaadin.data.Binder;
@@ -118,7 +117,7 @@ public class ClientEditUI extends VerticalLayout {
                     this.setVisible(false);
                     clear();
                 } else {
-                    delete.setComponentError(new UserError("У клиента существуют кредитные договоры"));
+                    delete.setComponentError(new UserError("У клиента есть действующие кредитные договоры"));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

@@ -108,6 +108,7 @@ public class CreditOfferEditUI extends VerticalLayout {
                 } else {
                     addPaymentGraphic.setVisible(false);
                     deletePaymentGraphic.setVisible(true);
+                    deletePaymentGraphic.setComponentError(null);
                     showPaymentGraphic.setVisible(true);
                 }
             } catch (SQLException throwables) {
@@ -159,7 +160,8 @@ public class CreditOfferEditUI extends VerticalLayout {
         add.addClickListener(clickEvent -> {
             try {
                 if (fieldCheck()) {
-                    creditOfferService.addCreditOffer(getCreditOffer());
+                    addCreditOffer();
+//                    creditOfferService.addCreditOffer(getCreditOffer());
                     creditOfferView.updateGrid();
                     this.setVisible(false);
                     clear();
@@ -171,6 +173,8 @@ public class CreditOfferEditUI extends VerticalLayout {
         update.addClickListener(event -> {
             try {
                 if (fieldCheck()) {
+                    if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty())
+                        removePaymentGraphic(creditOffer);
                     updateCreditOffer();
                     creditOfferView.updateGrid();
                     this.setVisible(false);
@@ -182,15 +186,17 @@ public class CreditOfferEditUI extends VerticalLayout {
         });
         delete.addClickListener(event -> {
             try {
-                if (paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
-                    deleteCreditOffer();
-                    creditOfferView.updateGrid();
-                    this.setVisible(false);
-                    clear();
+                if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty())
+                    removePaymentGraphic(creditOffer);
+                deleteCreditOffer();
+                creditOfferView.updateGrid();
+                this.setVisible(false);
+                clear();
 
-                }else{
-                    delete.setComponentError(new UserError("По этому договору существует график платежей"));
-                }
+//                else {
+//
+////                    delete.setComponentError(new UserError("По этому договору существует график платежей"));
+//                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -201,6 +207,9 @@ public class CreditOfferEditUI extends VerticalLayout {
             try {
                 if (paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty())
                     createPaymentGraphic();
+                creditOfferView.updateGrid();
+                this.setVisible(false);
+                clear();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -215,14 +224,27 @@ public class CreditOfferEditUI extends VerticalLayout {
         });
 
         deletePaymentGraphic.addClickListener(event -> {
+//            try {
+//                if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
+//                    paymentGraphicList = new ArrayList<>();
+//                    paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
+//                    for (PaymentGraphic pg : paymentGraphicList) {
+//                        paymentGraphicService.deletePaymentGraphic(pg);
+//                    }
+//                }
+//            } catch (SQLException throwables) {
+//                throwables.printStackTrace();
+//            }
             try {
                 if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
-                    paymentGraphicList = new ArrayList<>();
-                    paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
-                    for (PaymentGraphic pg : paymentGraphicList) {
-                        paymentGraphicService.deletePaymentGraphic(pg);
-                    }
+                    removePaymentGraphic(creditOffer);
+                    creditOfferView.updateGrid();
+                    this.setVisible(false);
+                    clear();
+                } else {
+                    deletePaymentGraphic.setComponentError(new UserError("По договору нет графика платежей"));
                 }
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -281,11 +303,6 @@ public class CreditOfferEditUI extends VerticalLayout {
         paimentRest = creditOffer.getCreditSum();
         for (Long i = creditOffer.getMonthsOfCredit(), month = 1L; i > 0; i--, month++) {
             PaymentGraphic paymentGraphic = new PaymentGraphic();
-            try {
-                paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
             if (paimentRest < creditMonhtPayment || month == creditOffer.getMonthsOfCredit()) {
                 creditMonhtPayment = Math.round(paimentRest + paimentRest * creditMonhtPercent);
             }
@@ -322,14 +339,6 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditOfferService.deleteCreditOffer(creditOffer);
     }
 
-    private void clear() {
-        clientSelect.clear();
-        creditSelect.clear();
-        creditSum.clear();
-        monthsOfCredit.clear();
-        itog.setValue("");
-    }
-
     private CreditOffer getCreditOffer() {
         creditOffer.setCreditSum(Long.parseLong(creditSum.getValue()));
         creditOffer.setClient(clientSelect.getValue());
@@ -343,5 +352,26 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditSelect.setSelectedItem(creditOffer.getCredit());
         creditSum.setValue(creditOffer.getCreditSum().toString());
         monthsOfCredit.setValue(creditOffer.getMonthsOfCredit().toString());
+    }
+
+    private void clear() {
+        clientSelect.clear();
+        creditSelect.clear();
+        creditSum.clear();
+        monthsOfCredit.clear();
+        itog.setValue("");
+    }
+
+    private void removePaymentGraphic(CreditOffer creditOffer) {
+        this.creditOffer = creditOffer;
+        paymentGraphicList = new ArrayList<>();
+        try {
+            paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
+            for (PaymentGraphic pg : paymentGraphicList) {
+                paymentGraphicService.deletePaymentGraphic(pg);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

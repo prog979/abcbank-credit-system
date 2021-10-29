@@ -2,6 +2,7 @@ package com.abcbank.credit.app.UI;
 
 import com.abcbank.credit.app.entities.Credit;
 import com.abcbank.credit.app.service.CreditService;
+import com.abcbank.credit.app.service.CreditOfferService;
 import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.converter.StringToLongConverter;
@@ -24,6 +25,7 @@ public class CreditEditUI extends VerticalLayout {
     private Button update = new Button("Изменить");
     private Credit credit;
     private CreditService creditService = new CreditService();
+    private CreditOfferService creditOfferService = new CreditOfferService();
     private Binder<Credit> binder = new Binder<>();
 
     public CreditEditUI(Credit credit, CreditView creditView) {
@@ -58,6 +60,7 @@ public class CreditEditUI extends VerticalLayout {
             setCredit(credit);
             update.setVisible(true);
             delete.setVisible(true);
+            delete.setComponentError(null);
             add.setVisible(false);
         }
         creditNameField.setPlaceholder("Введите название кредата");
@@ -95,10 +98,14 @@ public class CreditEditUI extends VerticalLayout {
         });
         delete.addClickListener(event -> {
             try {
+                if (creditOfferService.getCreditOfferByCredit(credit).isEmpty()) {
                 creditService.deleteCredit(credit);
                 creditView.updateGrid();
                 this.setVisible(false);
-                clear();
+                clear();}
+                else {
+                    delete.setComponentError(new UserError("По этому виду кредита есть действующие кредитные договоры"));
+                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

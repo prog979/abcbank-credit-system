@@ -8,16 +8,18 @@ import org.hibernate.query.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
+public class PaymentGraphicDAOImpl implements PaymentGraphicDAO {
     private static Logger LOG = LoggerFactory.getLogger(PaymentGraphicDAOImpl.class);
+
     @Override
     public void addPaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
         Session session = null;
-        try{
+        try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.save(paymentGraphic);
@@ -25,7 +27,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
@@ -34,7 +36,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
     @Override
     public void updatePaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
         Session session = null;
-        try{
+        try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.update(paymentGraphic);
@@ -42,7 +44,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
@@ -58,7 +60,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
@@ -70,13 +72,13 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
     public PaymentGraphic getPaymentGraphicById(String id) throws SQLException {
         Session session = null;
         PaymentGraphic paymentGraphic = null;
-        try{
+        try {
             session = HibernateUtil.getSessionFactory().openSession();
             paymentGraphic = (PaymentGraphic) session.load(PaymentGraphic.class, id);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
@@ -86,8 +88,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
     @Override
     public void deletePaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
         Session session = null;
-        List paymentGraphics = new ArrayList<PaymentGraphic>();
-        try{
+        try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.delete(paymentGraphic);
@@ -95,7 +96,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
@@ -105,7 +106,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
     public List getPaymentGraphicsByCreditOffer(CreditOffer creditOffer) throws SQLException {
         Session session = null;
         List paymentGraphics = new ArrayList<PaymentGraphic>();
-        try{
+        try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             Long creditOffer_id = creditOffer.getId();
@@ -116,7 +117,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO{
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(session != null && session.isOpen()){
+            if (session != null && session.isOpen()) {
                 session.close();
             }
         }
