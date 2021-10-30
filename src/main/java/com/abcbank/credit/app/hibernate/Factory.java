@@ -1,14 +1,14 @@
 package com.abcbank.credit.app.hibernate;
 
-import com.abcbank.credit.app.DAO.ClientDAO;
-import com.abcbank.credit.app.DAO.ClientDAOImpl;
-import com.abcbank.credit.app.DAO.CreditDAO;
-import com.abcbank.credit.app.DAO.CreditDAOImpl;
-import com.abcbank.credit.app.DAO.CreditOfferDAO;
-import com.abcbank.credit.app.DAO.CreditOfferDAOImpl;
-import com.abcbank.credit.app.DAO.PaymentGraphicDAO;
-import com.abcbank.credit.app.DAO.PaymentGraphicDAOImpl;
-import com.abcbank.credit.app.hibernate.Factory;
+import com.abcbank.credit.app.dao.ClientDAO;
+import com.abcbank.credit.app.dao.ClientDAOImpl;
+import com.abcbank.credit.app.dao.CreditDAO;
+import com.abcbank.credit.app.dao.CreditDAOImpl;
+import com.abcbank.credit.app.dao.CreditOfferDAO;
+import com.abcbank.credit.app.dao.CreditOfferDAOImpl;
+import com.abcbank.credit.app.dao.PaymentGraphicDAO;
+import com.abcbank.credit.app.dao.PaymentGraphicDAOImpl;
+
 
 public class Factory {
     private static ClientDAO clientDAO = null;
