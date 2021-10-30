@@ -7,7 +7,6 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.converter.StringToLongConverter;
 import com.vaadin.server.UserError;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
@@ -41,11 +40,13 @@ public class CreditEditUI extends VerticalLayout {
     public void editConfigure(Credit credit) {
         binder.forField(creditNameField).withValidator(field -> field.length() > 0, "Поле должно быть заполнено")
                 .bind(Credit::getCreditName, Credit::setCreditName);
-        binder.forField(creditPercent).withValidator(field -> field.length() > 0, "Поле должно быть заполнено")
+        binder.forField(creditPercent).withValidator(field -> field.length() > 0,
+                        "Поле должно быть заполнено")
                 .withConverter(new StringToIntegerConverter("Поле введено неверно"))
                 .withValidator(event -> (event > 0 && event <= 100), "Проценты должны быть больше 0 и меньше 100")
                 .bind(Credit::getPercent, Credit::setPercent);
-        binder.forField(creditLimit).withValidator(field -> field.length() > 0, "Поле не введено")
+        binder.forField(creditLimit).withValidator(field -> field.length() > 0,
+                        "Поле не введено")
                 .withConverter(new StringToLongConverter("Поле введено неверно"))
                 .withValidator(event -> (event > 0), "Лимит кредита должен быть больше нуля")
                 .bind(Credit::getCreditLimit, Credit::setCreditLimit);
@@ -179,4 +180,3 @@ public class CreditEditUI extends VerticalLayout {
         creditLimit.setValue(String.valueOf(credit.getCreditLimit()));
     }
 }
-

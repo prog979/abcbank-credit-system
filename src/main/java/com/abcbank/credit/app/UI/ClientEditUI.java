@@ -5,15 +5,11 @@ import com.abcbank.credit.app.entities.Client;
 import com.abcbank.credit.app.service.ClientService;
 import com.abcbank.credit.app.service.CreditOfferService;
 import com.vaadin.data.Binder;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
-import com.vaadin.server.AbstractExtension;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.UI;
 
 
 import java.sql.SQLException;
@@ -146,8 +142,12 @@ public class ClientEditUI extends VerticalLayout {
     }
 
     private void addClient() throws SQLException {
-        Client client = new Client(secnameField.getValue(), nameField.getValue(), patronymicField.getValue(),
-                phone_numberField.getValue(), email.getValue(), pasport_numberField.getValue());
+        Client client = new Client(secnameField.getValue(),
+                nameField.getValue(),
+                patronymicField.getValue(),
+                phone_numberField.getValue(),
+                email.getValue(),
+                pasport_numberField.getValue());
         clientService.addClient(client);
     }
 

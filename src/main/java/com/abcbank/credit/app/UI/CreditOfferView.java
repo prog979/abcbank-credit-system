@@ -28,8 +28,8 @@ public class CreditOfferView extends VerticalLayout {
         gridLayout.setSizeFull();
         gridLayout.addComponents(creditGrid, addUI);
         paymentGrid.setVisible(false);
-        filterConfigure();                       //
-        filter.setPlaceholder("Найти...");       //
+        filterConfigure();
+        filter.setPlaceholder("Найти...");
         layout.addComponents(add);
         add.addClickListener(clickEvent -> {
             addUI.setVisible(true);
@@ -37,7 +37,8 @@ public class CreditOfferView extends VerticalLayout {
         });
         addComponents(layout, gridLayout, paymentGrid);
     }
-// added
+
+    // added
     private void filterConfigure() {
         filter.addValueChangeListener(e -> {
             try {
@@ -51,7 +52,7 @@ public class CreditOfferView extends VerticalLayout {
 // added
 
     protected void updateList() throws SQLException {
-      List<CreditOffer> creditOffers = creditOfferService.getCreditOfferByCredit(null);
+        List<CreditOffer> creditOffers = creditOfferService.getCreditOfferByCredit(null);
 
 
         creditGrid.setItems(creditOffers);
@@ -65,26 +66,18 @@ public class CreditOfferView extends VerticalLayout {
         paymentGrid.setWidth("800");
         paymentGrid.setVisible(true);
         paymentGrid.setItems(paymentGraphics);
-//      	paymentGrid.removeColumn("id");
-//        paymentGrid.removeColumn("date");
-//        paymentGrid.removeColumn("creditOffer");
-//        paymentGrid.removeColumn("origDate");
         paymentGrid.setColumns();
         paymentGrid.addColumn(column -> column.getOrigDate().toString()).setCaption("Дата");
         paymentGrid.addColumn(PaymentGraphic::getPaymentSum).setCaption("Сумма платежа");
         paymentGrid.addColumn(PaymentGraphic::getCreditBody).setCaption("Тело кредита");
         paymentGrid.addColumn(PaymentGraphic::getCreditPercents).setCaption("Проценты");
         paymentGrid.addColumn(PaymentGraphic::getPaymentRest).setCaption("Остаток по кредиту");
-//        paymentGrid.setColumns("paymentSum", "creditBody", "creditPercents", "paymentRest");
-
-
     }
 
     private void gridConfigure() throws SQLException {
         creditGrid.setWidth("800");
         creditGrid.removeColumn("client");
         creditGrid.removeColumn("credit");
-//        creditGrid.setColumns("creditSum", "monthsOfCredit");git
         creditGrid.setColumns();
         creditGrid.addColumn(client -> client.getClient().getInitials()).setCaption("Клиент");
         creditGrid.addColumn(CreditOffer::getCreditSum).setCaption("Сумма договора");

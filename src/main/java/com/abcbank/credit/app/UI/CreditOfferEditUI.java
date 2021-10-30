@@ -9,16 +9,13 @@ import com.abcbank.credit.app.service.CreditOfferService;
 import com.abcbank.credit.app.service.CreditService;
 import com.abcbank.credit.app.service.PaymentGraphicService;
 import com.vaadin.data.Binder;
-import com.vaadin.data.Validator;
-import com.vaadin.data.converter.StringToIntegerConverter;
 import com.vaadin.data.converter.StringToLongConverter;
-import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
-import com.vaadin.ui.Window;
+
 
 import java.awt.*;
 import java.sql.SQLException;
@@ -140,15 +137,9 @@ public class CreditOfferEditUI extends VerticalLayout {
                                 "Сумма должна быть больше нуля, и не выше лимита"))
                         .withValidator(event -> (event > 0 && event <= creditSelect.getValue().getCreditLimit()),
                                 "Сумма должна быть больше нуля, и не выше " + creditSelect.getValue().getCreditLimit())
-                        .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum)
-                ;
-//                binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Поле введено неверно"))
-//                        .withValidator(event -> (event > 0), "Срок выплаты должен быть больше нуля ")
-//                        .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
+                        .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             }
-
         });
-
     }
 
     private void addClickListeners() {
@@ -157,11 +148,11 @@ public class CreditOfferEditUI extends VerticalLayout {
         cancel.addClickListener(event -> {
             this.setVisible(false);
         });
+
         add.addClickListener(clickEvent -> {
             try {
                 if (fieldCheck()) {
                     addCreditOffer();
-//                    creditOfferService.addCreditOffer(getCreditOffer());
                     creditOfferView.updateGrid();
                     this.setVisible(false);
                     clear();
@@ -170,6 +161,7 @@ public class CreditOfferEditUI extends VerticalLayout {
                 throwables.printStackTrace();
             }
         });
+
         update.addClickListener(event -> {
             try {
                 if (fieldCheck()) {
@@ -184,6 +176,7 @@ public class CreditOfferEditUI extends VerticalLayout {
                 throwables.printStackTrace();
             }
         });
+
         delete.addClickListener(event -> {
             try {
                 if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty())
@@ -192,16 +185,11 @@ public class CreditOfferEditUI extends VerticalLayout {
                 creditOfferView.updateGrid();
                 this.setVisible(false);
                 clear();
-
-//                else {
-//
-////                    delete.setComponentError(new UserError("По этому договору существует график платежей"));
-//                }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-
         });
+
         addPaymentGraphic.addClickListener(event ->
         {
             try {
@@ -224,17 +212,6 @@ public class CreditOfferEditUI extends VerticalLayout {
         });
 
         deletePaymentGraphic.addClickListener(event -> {
-//            try {
-//                if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
-//                    paymentGraphicList = new ArrayList<>();
-//                    paymentGraphicList = paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer);
-//                    for (PaymentGraphic pg : paymentGraphicList) {
-//                        paymentGraphicService.deletePaymentGraphic(pg);
-//                    }
-//                }
-//            } catch (SQLException throwables) {
-//                throwables.printStackTrace();
-//            }
             try {
                 if (!paymentGraphicService.getPaymentGraphicByCreditOffer(creditOffer).isEmpty()) {
                     removePaymentGraphic(creditOffer);
@@ -280,10 +257,10 @@ public class CreditOfferEditUI extends VerticalLayout {
             creditSum = Long.parseLong(this.creditSum.getValue());
             percents = creditSelect.getValue().getPercent();
             Long creditBody = creditSum / 100 * (100 + percents);
-            itog.setValue("Итоговая сумма с учетом процентов: " + creditBody + " ,  " +
+            itog.setValue("Итоговая сумма с процентами: " + creditBody + " ,  " +
                     "Сумма процентов: " + (creditBody - creditSum));
         } catch (Exception ex) {
-            System.out.println("error");
+            System.out.println("Error in calculateItog() method");
         }
         itog.setVisible(true);
     }
@@ -315,7 +292,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             paymentGraphic.setPaymentRest(paimentRest - paymentGraphic.getCreditBody());
             paimentRest -= paymentGraphic.getCreditBody();
             try {
-                System.out.println("График сформирован");
+                System.out.println("График платежей сформирован");
                 paymentGraphicService.addPaymentGraphic(paymentGraphic);
             } catch (SQLException ex) {
                 ex.printStackTrace();

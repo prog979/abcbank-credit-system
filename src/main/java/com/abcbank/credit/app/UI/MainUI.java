@@ -1,8 +1,5 @@
 package com.abcbank.credit.app.UI;
 
-//import com.abcbank.credit.app.UI.ClientView;
-//import com.abcbank.credit.app.UI.CreditOfferView;
-//import com.abcbank.credit.app.UI.CreditView;
 import com.vaadin.server.*;
 import com.vaadin.shared.ui.*;
 import com.vaadin.ui.TabSheet;
@@ -19,7 +16,6 @@ public class MainUI extends UI {
 		layout.setSizeUndefined();
 		layout.setMargin(false);
 		setContent(layout);
-		// layout.addComponent(new Label("<b>ABC Банк</b>", ContentMode.HTML));
 
 		TabSheet tabSheet = new TabSheet();
 		TabSheet bankTabSheet = new TabSheet();
@@ -32,6 +28,5 @@ public class MainUI extends UI {
 		} catch (SQLException throwables) {
 			throwables.printStackTrace();
 		}
-
 	}
 }

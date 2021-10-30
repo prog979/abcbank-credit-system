@@ -61,7 +61,6 @@ public class CreditView extends VerticalLayout {
         creditService.fillDB();
         creditGrid.removeColumn("id");
         creditGrid.removeColumn("creditOffers");
-//        creditGrid.setColumns("creditName", "creditLimit", "percent");
         creditGrid.setColumns();
         creditGrid.addColumn(Credit::getCreditName).setCaption("Вид кредита");
         creditGrid.addColumn(Credit::getCreditLimit).setCaption("Лимит по кредиту");

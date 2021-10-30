@@ -1,14 +1,11 @@
 package com.abcbank.credit.app.UI;
 
 import com.abcbank.credit.app.entities.Client;
-import com.abcbank.credit.app.entities.CreditOffer;
 import com.abcbank.credit.app.service.ClientService;
 import com.vaadin.shared.ui.ValueChangeMode;
 import com.vaadin.ui.*;
-import org.hibernate.event.spi.EventType;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 public class ClientView extends VerticalLayout {
@@ -67,7 +64,6 @@ public class ClientView extends VerticalLayout {
         clientGrid.addColumn(Client::getName).setCaption("Имя");
         clientGrid.addColumn(Client::getPatronymic).setCaption("Отчество");
         clientGrid.addColumn(Client::getPhoneNumber).setCaption("Номер телефона");
-
         clientGrid.addColumn(Client::getEmail).setCaption("E-mail");
 
         List<Client> clients = clientService.getAllClients();
