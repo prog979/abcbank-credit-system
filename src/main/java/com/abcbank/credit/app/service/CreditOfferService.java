@@ -1,7 +1,7 @@
 package com.abcbank.credit.app.service;
 
-import com.abcbank.credit.app.DAO.ClientDAOImpl;
-import com.abcbank.credit.app.DAO.CreditOfferDAO;
+import com.abcbank.credit.app.dao.ClientDAOImpl;
+import com.abcbank.credit.app.dao.CreditOfferDAO;
 import com.abcbank.credit.app.entities.Client;
 import com.abcbank.credit.app.entities.Credit;
 import com.abcbank.credit.app.entities.CreditOffer;

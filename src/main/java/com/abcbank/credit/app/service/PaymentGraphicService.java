@@ -1,13 +1,12 @@
 package com.abcbank.credit.app.service;
 
-import com.abcbank.credit.app.DAO.PaymentGraphicDAO;
+import com.abcbank.credit.app.dao.PaymentGraphicDAO;
 
 import com.abcbank.credit.app.entities.CreditOffer;
 import com.abcbank.credit.app.entities.PaymentGraphic;
 import com.abcbank.credit.app.hibernate.Factory;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 public class PaymentGraphicService {

@@ -6,7 +6,7 @@ import com.abcbank.credit.app.hibernate.Factory;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
 
 
 public class ClientService {
@@ -20,7 +20,7 @@ public class ClientService {
                 try {
                     factory.getClientDAO().addClient(client);
                 } catch (SQLException ex){
-                    System.out.println("Cannot fill the Client Table");
+                    System.out.println("Unable to populate Clients table");
                     ex.printStackTrace();
                 } });
         }
@@ -30,10 +30,14 @@ public class ClientService {
 
     private List<Client> addClients(){
         List<Client> clients = new ArrayList<>();
-        clients.add(new Client("Петров", "Пётр", "Петрович", "89153456185", "petrovich@ya.ru", "4234 132456" ));
-        clients.add(new Client("Семёнов", "Сидор", "Спиридонович", "89084531895", "sidory-etomne@mail.ru", "4523 167890"));
-        clients.add(new Client("Светлова", "Светлана", "Сергеевна", "89364567813", "svetlena@gmail.com", "3408 456783"));
-        clients.add(new Client("Гребницкий", "Виктор", "Моисеевич", "89389137890", "rvm@gmail.com", "4234 7895435"));
+        clients.add(new Client("Петров", "Пётр", "Петрович", "89153456185",
+                "petrovich@ya.ru", "4234 132456" ));
+        clients.add(new Client("Семёнов", "Сидор", "Спиридонович", "89084531895"
+                , "sidory-etomne@mail.ru", "4523 167890"));
+        clients.add(new Client("Светлова", "Светлана", "Сергеевна", "89364567813",
+                "svetlena@gmail.com", "3408 456783"));
+        clients.add(new Client("Гребницкий", "Виктор", "Моисеевич", "89389137890",
+                "rvm@gmail.com", "4234 7895435"));
         return clients;
     }
 
