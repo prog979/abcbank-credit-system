@@ -1,10 +1,9 @@
-package com.abcbank.credit.app.DAO;
+package com.abcbank.credit.app.dao;
 
 import com.abcbank.credit.app.entities.CreditOffer;
 import com.abcbank.credit.app.entities.PaymentGraphic;
 
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 public interface PaymentGraphicDAO {

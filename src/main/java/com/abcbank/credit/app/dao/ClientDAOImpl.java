@@ -1,4 +1,4 @@
-package com.abcbank.credit.app.DAO;
+package com.abcbank.credit.app.dao;
 
 import com.abcbank.credit.app.entities.Client;
 import com.abcbank.credit.app.hibernate.HibernateUtil;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ClientDAOImpl implements ClientDAO {
-	private static Logger LOG = LoggerFactory.getLogger(ClientDAOImpl.class);
+	private static Logger log = LoggerFactory.getLogger(ClientDAOImpl.class);
 	@Override
 	public void addClient(Client client) throws SQLException {
 		Session session = null;
@@ -37,7 +37,7 @@ public class ClientDAOImpl implements ClientDAO {
 		try {
 			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
-			session.update(client);
+			session.saveOrUpdate(client);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();

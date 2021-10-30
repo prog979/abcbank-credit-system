@@ -1,28 +1,47 @@
-package com.abcbank.credit.app.DAO;
+package com.abcbank.credit.app.dao;
 
-import com.abcbank.credit.app.entities.CreditOffer;
-import com.abcbank.credit.app.entities.PaymentGraphic;
+import com.abcbank.credit.app.entities.Client;
+import com.abcbank.credit.app.entities.Credit;
 import com.abcbank.credit.app.hibernate.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.hibernate.Session;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class PaymentGraphicDAOImpl implements PaymentGraphicDAO {
-    private static Logger LOG = LoggerFactory.getLogger(PaymentGraphicDAOImpl.class);
+public class CreditDAOImpl implements CreditDAO {
+    private static Logger log = LoggerFactory.getLogger(CreditDAOImpl.class);
 
     @Override
-    public void addPaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
+    public void addCredit(Credit client) throws SQLException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(paymentGraphic);
+            session.save(client);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(),
+                    "Ошибка 'addCredit'", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
+    @Override
+    public void updateCredit(Credit credit) throws SQLException {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            session.update(credit);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,12 +53,45 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO {
     }
 
     @Override
-    public void updatePaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
+    public List getAllCredits() throws SQLException {
+        List credits = new ArrayList<Credit>();
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            credits = session.createQuery("SELECT credit FROM Credit credit").list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return credits;
+    }
+
+    @Override
+    public Credit getCreditById(String id) throws SQLException {
+        Credit credit = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            credit = session.load(Credit.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen())
+                session.close();
+        }
+        return credit;
+    }
+
+    @Override
+    public void deleteCredit(Credit credit) throws SQLException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(paymentGraphic);
+            session.delete(credit);
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,76 +103,27 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO {
     }
 
     @Override
-    public List getAllPaymentGraphic() throws SQLException {
-        Session session = null;
-        List<PaymentGraphic> paymentGraphics = new ArrayList<>();
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            paymentGraphics = session.createQuery("SELECT p FROM PaymentGraphic p").list();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return paymentGraphics;
-    }
-
-
-    @Override
-    public PaymentGraphic getPaymentGraphicById(String id) throws SQLException {
-        Session session = null;
-        PaymentGraphic paymentGraphic = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            paymentGraphic = (PaymentGraphic) session.load(PaymentGraphic.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return paymentGraphic;
+    public List getCreditsByClient(Client client) throws SQLException {
+        return null;
     }
 
     @Override
-    public void deletePaymentGraphic(PaymentGraphic paymentGraphic) throws SQLException {
+    public List getCreditsByName(String credit) throws SQLException {
         Session session = null;
+        credit.toLowerCase(Locale.ROOT);
+        List<Credit> credits = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            session.delete(paymentGraphic);
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
+            credits = session.createQuery(
+                            "SELECT credit FROM Credit credit WHERE lower(credit.creditName) like concat('%', :credit, '%')")
+                    .setParameter("credit", credit).list();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-    }
-
-    @Override
-    public List getPaymentGraphicsByCreditOffer(CreditOffer creditOffer) throws SQLException {
-        Session session = null;
-        List paymentGraphics = new ArrayList<PaymentGraphic>();
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            Long creditOffer_id = creditOffer.getId();
-            Query query = session.createQuery("SELECT graphic FROM PaymentGraphic graphic " +
-                    "INNER JOIN graphic.creditOffer offer WHERE offer.id = :creditOffer_id").setParameter("creditOffer_id", creditOffer_id);
-            paymentGraphics = (List<PaymentGraphic>) query.list();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
-        return paymentGraphics;
+        return credits;
     }
 }

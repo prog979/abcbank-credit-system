@@ -1,4 +1,4 @@
-package com.abcbank.credit.app.DAO;
+package com.abcbank.credit.app.dao;
 
 import com.abcbank.credit.app.entities.Client;
 import com.abcbank.credit.app.entities.Credit;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreditOfferDAOImpl implements CreditOfferDAO{
-    private static Logger LOG = LoggerFactory.getLogger(CreditOfferDAOImpl.class);
+    private static Logger log = LoggerFactory.getLogger(CreditOfferDAOImpl.class);
     @Override
     public void addCreditOffer(CreditOffer creditOffer) throws SQLException {
         Session session = null;

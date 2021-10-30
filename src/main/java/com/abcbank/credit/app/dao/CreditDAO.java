@@ -1,4 +1,4 @@
-package com.abcbank.credit.app.DAO;
+package com.abcbank.credit.app.dao;
 
 import com.abcbank.credit.app.entities.Client;
 import com.abcbank.credit.app.entities.Credit;
