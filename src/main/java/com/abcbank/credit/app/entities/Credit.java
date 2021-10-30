@@ -1,11 +1,7 @@
 package com.abcbank.credit.app.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "credits")
@@ -16,11 +12,11 @@ public class Credit {
     private String creditName;
     private Long creditLimit;
     private Integer percent;
-    
+
     @OneToMany(mappedBy = "credit", fetch = FetchType.EAGER)
     private Set<CreditOffer> creditOffers;
 
-    public Credit(){
+    public Credit() {
 
     }
 

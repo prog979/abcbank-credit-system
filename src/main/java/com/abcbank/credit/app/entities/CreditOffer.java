@@ -1,6 +1,5 @@
 package com.abcbank.credit.app.entities;
 
-import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.util.Set;
 
