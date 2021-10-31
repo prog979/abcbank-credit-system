@@ -46,10 +46,10 @@ public class CreditOfferEditUI extends VerticalLayout {
     private CreditOfferView creditOfferView;
     private Binder<CreditOffer> binder = new Binder();
 
-    private final String monthsOfCreditErrorMessage = "Срок выплаты должен быть больше нуля";
-    private final String creditSumErrorMessage = "Сумма должна быть больше нуля, и не выше лимита по кредиту";
-    private final String creditSumAndLimitErrorMessage = "Сумма должна быть больше нуля, и не выше ";
-    private final String FieldEntryErrorMessage = "Поля введены неверно";
+    private String MONTHS_OF_CREDIT_ERROR_MESSAGE = "Срок выплаты должен быть больше нуля";
+    private String CREDIT_SUM_ERROR_MESSAGE = "Сумма должна быть больше нуля, и не выше лимита по кредиту";
+    private String CREDIT_SUM_AND_LIMIT_LRROR_MESSAGE = "Сумма должна быть больше нуля, и не выше ";
+    private String FIELD_ENTRY_ERROR_MESSAGE = "Поля введены неверно";
 
 
     public CreditOfferEditUI(CreditOffer creditOffer, CreditOfferView creditOfferView) throws SQLException {
@@ -119,10 +119,10 @@ public class CreditOfferEditUI extends VerticalLayout {
             }
         }
         binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(
-                        monthsOfCreditErrorMessage))
+                        MONTHS_OF_CREDIT_ERROR_MESSAGE))
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
-        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(monthsOfCreditErrorMessage))
-                .withValidator(event -> (event > 0), monthsOfCreditErrorMessage)
+        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(MONTHS_OF_CREDIT_ERROR_MESSAGE))
+                .withValidator(event -> (event > 0), MONTHS_OF_CREDIT_ERROR_MESSAGE)
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
         creditSum.setPlaceholder("Введите сумму кредита");
         monthsOfCredit.setPlaceholder("Введите срок выплаты");
@@ -136,13 +136,13 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditSelect.addValueChangeListener(valueChangeEvent -> {
             if (creditSelect.getValue() == null)
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                                creditSumErrorMessage))
+                                CREDIT_SUM_ERROR_MESSAGE))
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             else {
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                                creditSumErrorMessage))
+                                CREDIT_SUM_ERROR_MESSAGE))
                         .withValidator(event -> (event > 0 && event <= creditSelect.getValue().getCreditLimit()),
-                                creditSumAndLimitErrorMessage + creditSelect.getValue().getCreditLimit())
+                                CREDIT_SUM_AND_LIMIT_LRROR_MESSAGE + creditSelect.getValue().getCreditLimit())
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             }
         });
@@ -242,13 +242,13 @@ public class CreditOfferEditUI extends VerticalLayout {
                     || creditSelect.getValue() == null
                     || Integer.parseInt(creditSum.getValue()) <= 0
                     || Integer.parseInt(monthsOfCredit.getValue()) <= 0) {
-                add.setComponentError(new UserError(FieldEntryErrorMessage));
-                update.setComponentError(new UserError(FieldEntryErrorMessage));
+                add.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
+                update.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
                 return false;
             }
         } catch (NumberFormatException ex) {
-            add.setComponentError(new UserError(FieldEntryErrorMessage));
-            update.setComponentError(new UserError(FieldEntryErrorMessage));
+            add.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
+            update.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
             return false;
         }
         add.setComponentError(null);
