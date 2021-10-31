@@ -34,8 +34,8 @@ public class ClientEditUI extends VerticalLayout {
     private Binder<Client> binder = new Binder<>();
     private CreditOfferService creditOfferService = new CreditOfferService();
 
-    private final String deleteClientErrMessage = "У клиента есть действующие кредитные договоры";
-    private final String addClientErrMessage = "Все поля должны быть заполнены!";
+    private String DELETE_CLIENT_ERROR_MESSAGE = "У клиента есть действующие кредитные договоры";
+    private String ADD_CLIENT_ERROR_MESSAGE = "Все поля должны быть заполнены!";
 
     public ClientEditUI(Client client, ClientView clientView) {
         this.client = client;
@@ -116,7 +116,7 @@ public class ClientEditUI extends VerticalLayout {
                     this.setVisible(false);
                     clear();
                 } else {
-                    delete.setComponentError(new UserError(deleteClientErrMessage));
+                    delete.setComponentError(new UserError(DELETE_CLIENT_ERROR_MESSAGE));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -127,7 +127,7 @@ public class ClientEditUI extends VerticalLayout {
     private boolean fieldCheck() {
         if (nameField.isEmpty() || secnameField.isEmpty() || patronymicField.isEmpty() || email.isEmpty()
                 || phone_numberField.isEmpty() || pasport_numberField.isEmpty()) {
-            add.setComponentError(new UserError(addClientErrMessage));
+            add.setComponentError(new UserError(ADD_CLIENT_ERROR_MESSAGE));
             return false;
         } else {
             add.setComponentError(null);
