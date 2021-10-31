@@ -8,21 +8,24 @@ import java.util.Set;
 public class Credit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
-    private String creditName;
-    private Long creditLimit;
+    private String credit_name;
+
+    @Column(nullable = false)
+    private Long credit_limit;
+    @Column(nullable = false)
     private Integer percent;
 
     @OneToMany(mappedBy = "credit", fetch = FetchType.EAGER)
     private Set<CreditOffer> creditOffers;
 
     public Credit() {
-
     }
 
-    public Credit(String creditName, Long creditLimit, Integer percent) {
-        this.creditName = creditName;
-        this.creditLimit = creditLimit;
+    public Credit(String credit_name, Long credit_limit, Integer percent) {
+        this.credit_name = credit_name;
+        this.credit_limit = credit_limit;
         this.percent = percent;
     }
 
@@ -35,19 +38,19 @@ public class Credit {
     }
 
     public String getCreditName() {
-        return creditName;
+        return credit_name;
     }
 
-    public void setCreditName(String creditName) {
-        this.creditName = creditName;
+    public void setCreditName(String credit_name) {
+        this.credit_name = credit_name;
     }
 
     public Long getCreditLimit() {
-        return creditLimit;
+        return credit_limit;
     }
 
-    public void setCreditLimit(Long creditLimit) {
-        this.creditLimit = creditLimit;
+    public void setCreditLimit(Long credit_limit) {
+        this.credit_limit = credit_limit;
     }
 
     public Integer getPercent() {

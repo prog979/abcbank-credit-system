@@ -12,6 +12,7 @@ import java.util.Date;
 public class PaymentGraphic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
 	private Long id;
  
     @ManyToOne(fetch = FetchType.EAGER)
@@ -21,22 +22,22 @@ public class PaymentGraphic {
     @Basic
     @Temporal(TemporalType.DATE)
     private Date date;
-    private Long paymentSum;
-    private Long creditBody;
-    private Long creditPercents;
-    private Long paymentRest;
+    private Long payment_sum;
+    private Long credit_body;
+    private Long credit_percents;
+    private Long payment_rest;
 
     public PaymentGraphic(){
     }
 
-    public PaymentGraphic(CreditOffer creditOffer, LocalDate date, Long paymentSum,
-    		Long creditBody, Long creditPercents, Long paymentRest) {
+    public PaymentGraphic(CreditOffer creditOffer, LocalDate date, Long payment_sum,
+    		Long credit_body, Long credit_percents, Long payment_rest) {
         ZoneId zoneId = ZoneId.systemDefault();
         this.date = Date.from(date.atStartOfDay(zoneId).toInstant());
-        this.paymentSum = paymentSum;
-        this.creditBody = creditBody;
-        this.creditPercents = creditPercents;
-        this.paymentRest = paymentRest;
+        this.payment_sum = payment_sum;
+        this.credit_body = credit_body;
+        this.credit_percents = credit_percents;
+        this.payment_rest = payment_rest;
     }
 
     public Long getId() {
@@ -71,34 +72,34 @@ public class PaymentGraphic {
 
 
     public Long getPaymentSum() {
-        return paymentSum;
+        return payment_sum;
     }
 
-    public void setPaymentSum(Long paymentSum) {
-        this.paymentSum = paymentSum;
+    public void setPaymentSum(Long payment_sum) {
+        this.payment_sum = payment_sum;
     }
 
     public Long getCreditBody() {
-        return creditBody;
+        return credit_body;
     }
 
-    public void setCreditBody(Long creditBody) {
-        this.creditBody = creditBody;
+    public void setCreditBody(Long credit_body) {
+        this.credit_body = credit_body;
     }
 
     public Long getCreditPercents() {
-        return creditPercents;
+        return credit_percents;
     }
 
-    public void setCreditPercents(Long creditPercents) {
-        this.creditPercents = creditPercents;
+    public void setCreditPercents(Long credit_percents) {
+        this.credit_percents = credit_percents;
     }
 
     public Long getPaymentRest() {
-        return paymentRest;
+        return payment_rest;
     }
 
-    public void setPaymentRest(Long paymentRest) {
-        this.paymentRest = paymentRest;
+    public void setPaymentRest(Long payment_rest) {
+        this.payment_rest = payment_rest;
     }
 }

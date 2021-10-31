@@ -10,13 +10,14 @@ import java.util.Set;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
     private String secname;
     private String name;
     private String patronymic;
-    private String phoneNumber;
+    private String phone_number;
     private String email;
-    private String pasportNumber;
+    private String pasport_number;
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<CreditOffer> creditOffers;
 
@@ -24,14 +25,14 @@ public class Client {
 
     }
 
-    public Client(String secname, String name, String patronymic, String phoneNumber, String email,
-                  String pasportNumber) {
+    public Client(String secname, String name, String patronymic, String phone_number, String email,
+                  String pasport_number) {
         this.secname = secname;
         this.name = name;
         this.patronymic = patronymic;
-        this.phoneNumber = phoneNumber;
+        this.phone_number = phone_number;
         this.email = email;
-        this.pasportNumber = pasportNumber;
+        this.pasport_number = pasport_number;
     }
 
     public Long getId() {
@@ -67,11 +68,11 @@ public class Client {
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getEmail() {
@@ -83,11 +84,11 @@ public class Client {
     }
 
     public String getPasportNumber() {
-        return pasportNumber;
+        return pasport_number;
     }
 
-    public void setPasportNumber(String pasportNumber) {
-        this.pasportNumber = pasportNumber;
+    public void setPasportNumber(String pasport_number) {
+        this.pasport_number = pasport_number;
     }
 
     public Set<CreditOffer> getCreditOffers() {
