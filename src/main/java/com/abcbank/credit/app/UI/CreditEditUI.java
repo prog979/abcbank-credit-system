@@ -27,6 +27,15 @@ public class CreditEditUI extends VerticalLayout {
     private CreditOfferService creditOfferService = new CreditOfferService();
     private Binder<Credit> binder = new Binder<>();
 
+    private String FIELD_EMPTY_ERROR_MESSAGE = "Поле не введено";
+    private String EMPTY_FIELD_ERROR_MESSAGE = "Поле должно быть заполнено";
+    private String INCORRECT_FIELD_ENTERED_ERROR_MESSAGE = "Поле введено неверно";
+    private String INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE = "Поля введены неверно";
+    private String CREDIT_PERCENT_ERROR_MESSAGE = "Проценты должны быть больше 0 и меньше 100";
+    private String CREDIT_LIMIT_ERROR_MESSAGE = "Лимит кредита должен быть больше нуля";
+    private String DELETE_CREDIT_ERROR_MESSAGE = "У клиента есть действующие кредитные договоры";
+
+
     public CreditEditUI(Credit credit, CreditView creditView) {
         setVisible(false);
         setWidthUndefined();
@@ -38,17 +47,17 @@ public class CreditEditUI extends VerticalLayout {
     }
 
     public void editConfigure(Credit credit) {
-        binder.forField(creditNameField).withValidator(field -> field.length() > 0, "Поле должно быть заполнено")
+        binder.forField(creditNameField).withValidator(field -> field.length() > 0, EMPTY_FIELD_ERROR_MESSAGE)
                 .bind(Credit::getCreditName, Credit::setCreditName);
         binder.forField(creditPercent).withValidator(field -> field.length() > 0,
-                        "Поле должно быть заполнено")
-                .withConverter(new StringToIntegerConverter("Поле введено неверно"))
-                .withValidator(event -> (event > 0 && event <= 100), "Проценты должны быть больше 0 и меньше 100")
+                        EMPTY_FIELD_ERROR_MESSAGE)
+                .withConverter(new StringToIntegerConverter(INCORRECT_FIELD_ENTERED_ERROR_MESSAGE))
+                .withValidator(event -> (event > 0 && event <= 100), CREDIT_PERCENT_ERROR_MESSAGE)
                 .bind(Credit::getPercent, Credit::setPercent);
         binder.forField(creditLimit).withValidator(field -> field.length() > 0,
-                        "Поле не введено")
-                .withConverter(new StringToLongConverter("Поле введено неверно"))
-                .withValidator(event -> (event > 0), "Лимит кредита должен быть больше нуля")
+                        FIELD_EMPTY_ERROR_MESSAGE)
+                .withConverter(new StringToLongConverter(INCORRECT_FIELD_ENTERED_ERROR_MESSAGE))
+                .withValidator(event -> (event > 0), CREDIT_LIMIT_ERROR_MESSAGE)
                 .bind(Credit::getCreditLimit, Credit::setCreditLimit);
         setVisible(true);
         if (credit == null) {
@@ -94,8 +103,7 @@ public class CreditEditUI extends VerticalLayout {
                         creditView.updateGrid();
                         this.setVisible(false);
                         clear();
-                    } else update.setComponentError(new UserError(
-                            "По этому виду кредита есть действующие кредитные договоры"));
+                    } else update.setComponentError(new UserError(DELETE_CREDIT_ERROR_MESSAGE));
                 }
 
             } catch (SQLException throwables) {
@@ -110,8 +118,7 @@ public class CreditEditUI extends VerticalLayout {
                     this.setVisible(false);
                     clear();
                 } else {
-                    delete.setComponentError(new UserError(
-                            "По этому виду кредита есть действующие кредитные договоры"));
+                    delete.setComponentError(new UserError(DELETE_CREDIT_ERROR_MESSAGE));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -121,19 +128,19 @@ public class CreditEditUI extends VerticalLayout {
 
     private boolean fieldCheck() {
         if (creditNameField.isEmpty() || creditPercent.isEmpty() || creditLimit.isEmpty()) {
-            add.setComponentError(new UserError("Поля введены неверно"));
-            update.setComponentError(new UserError("Поля введены неверно"));
+            add.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
+            update.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
             return false;
         } else
             try {
                 if (Integer.parseInt(creditPercent.getValue()) <= 0 || Integer.parseInt(creditLimit.getValue()) <= 0) {
-                    add.setComponentError(new UserError("Поля введены неверно"));
-                    update.setComponentError(new UserError("Поля введены неверно"));
+                    add.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
+                    update.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
                     return false;
                 }
             } catch (NumberFormatException ex) {
-                add.setComponentError(new UserError("Поля введены неверно"));
-                update.setComponentError(new UserError("Поля введены неверно"));
+                add.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
+                update.setComponentError(new UserError(INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE));
                 return false;
             }
         add.setComponentError(null);
