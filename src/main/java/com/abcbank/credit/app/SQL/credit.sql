@@ -1,4 +1,6 @@
-INSERT INTO credit VALUES("ddslfds0sdfakdj91", "Автокредит", 12000, 24)
-INSERT INTO credit VALUES("ddslfdslksdfsdj23", "Потребительский", 15000, 6)
-INSERT INTO credit VALUES("ddlaeis0sdfakdj12", "Срочный", 50000, 3)
-INSERT INTO credit VALUES("ddskjlj0sdfakdj38", "Ипотечный", 1000000, 60)
+INSERT INTO CREDITS (ID, CREDIT_NAME, CREDIT_LIMIT, PERCENT)
+VALUES (1, 'Аннуитетный', 50000, 22),
+       (2, 'Срочный', 10000, 24),
+       (3, 'Автокредит', 600000, 18),
+       (4, 'Ипотечный', 10000000, 8),
+       (5, 'Потребительский', 200000, 16);
