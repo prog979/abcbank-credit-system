@@ -17,7 +17,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 
-import java.awt.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -240,8 +239,9 @@ public class CreditOfferEditUI extends VerticalLayout {
                     || monthsOfCredit.isEmpty()
                     || clientSelect.getValue() == null
                     || creditSelect.getValue() == null
-                    || Integer.parseInt(creditSum.getValue()) <= 0
-                    || Integer.parseInt(monthsOfCredit.getValue()) <= 0) {
+                    || Long.parseLong(creditSum.getValue()) <= 0
+                    || Long.parseLong(creditSum.getValue()) > creditSelect.getValue().getCreditLimit()
+                    || Long.parseLong(monthsOfCredit.getValue()) <= 0) {
                 add.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
                 update.setComponentError(new UserError(FIELD_ENTRY_ERROR_MESSAGE));
                 return false;
