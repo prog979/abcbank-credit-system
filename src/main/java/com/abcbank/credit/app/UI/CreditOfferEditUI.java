@@ -46,6 +46,12 @@ public class CreditOfferEditUI extends VerticalLayout {
     private CreditOfferView creditOfferView;
     private Binder<CreditOffer> binder = new Binder();
 
+    private final String monthsOfCreditErrorMessage = "Срок выплаты должен быть больше нуля";
+    private final String creditSumErrorMessage = "Сумма должна быть больше нуля, и не выше лимита по кредиту";
+    private final String creditSumAndLimitErrorMessage = "Сумма должна быть больше нуля, и не выше ";
+    private final String FieldEntryErrorMessage = "Поля введены неверно";
+
+
     public CreditOfferEditUI(CreditOffer creditOffer, CreditOfferView creditOfferView) throws SQLException {
         setVisible(false);
         if (creditOffer == null) {
@@ -113,10 +119,10 @@ public class CreditOfferEditUI extends VerticalLayout {
             }
         }
         binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(
-                        "Срок выплаты должен быть больше нуля "))
+                        monthsOfCreditErrorMessage))
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
-        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter("Срок выплаты должен быть больше нуля "))
-                .withValidator(event -> (event > 0), "Срок выплаты должен быть больше нуля ")
+        binder.forField(monthsOfCredit).withConverter(new StringToLongConverter(monthsOfCreditErrorMessage))
+                .withValidator(event -> (event > 0), monthsOfCreditErrorMessage)
                 .bind(CreditOffer::getMonthsOfCredit, CreditOffer::setMonthsOfCredit);
         creditSum.setPlaceholder("Введите сумму кредита");
         monthsOfCredit.setPlaceholder("Введите срок выплаты");
@@ -130,13 +136,13 @@ public class CreditOfferEditUI extends VerticalLayout {
         creditSelect.addValueChangeListener(valueChangeEvent -> {
             if (creditSelect.getValue() == null)
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                                "Сумма должна быть больше нуля, и не выше лимита"))
+                                creditSumErrorMessage))
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             else {
                 binder.forField(creditSum).withConverter(new StringToLongConverter(
-                                "Сумма должна быть больше нуля, и не выше лимита"))
+                                creditSumErrorMessage))
                         .withValidator(event -> (event > 0 && event <= creditSelect.getValue().getCreditLimit()),
-                                "Сумма должна быть больше нуля, и не выше " + creditSelect.getValue().getCreditLimit())
+                                creditSumAndLimitErrorMessage + creditSelect.getValue().getCreditLimit())
                         .bind(CreditOffer::getCreditSum, CreditOffer::setCreditSum);
             }
         });
@@ -236,13 +242,13 @@ public class CreditOfferEditUI extends VerticalLayout {
                     || creditSelect.getValue() == null
                     || Integer.parseInt(creditSum.getValue()) <= 0
                     || Integer.parseInt(monthsOfCredit.getValue()) <= 0) {
-                add.setComponentError(new UserError("Поля введены неверно"));
-                update.setComponentError(new UserError("Поля введены неверно"));
+                add.setComponentError(new UserError(FieldEntryErrorMessage));
+                update.setComponentError(new UserError(FieldEntryErrorMessage));
                 return false;
             }
         } catch (NumberFormatException ex) {
-            add.setComponentError(new UserError("Поля введены неверно"));
-            update.setComponentError(new UserError("Поля введены неверно"));
+            add.setComponentError(new UserError(FieldEntryErrorMessage));
+            update.setComponentError(new UserError(FieldEntryErrorMessage));
             return false;
         }
         add.setComponentError(null);
@@ -257,7 +263,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             creditSum = Long.parseLong(this.creditSum.getValue());
             percents = creditSelect.getValue().getPercent();
             Long creditBody = creditSum / 100 * (100 + percents);
-            itog.setValue("Итоговая сумма с процентами: " + creditBody + " ,  " +
+            itog.setValue("Итоговая сумма кредита с процентами: " + creditBody + " ,  " +
                     "Сумма процентов: " + (creditBody - creditSum));
         } catch (Exception ex) {
             System.out.println("Error in calculateItog() method");
@@ -266,7 +272,7 @@ public class CreditOfferEditUI extends VerticalLayout {
     }
 
     private void createPaymentGraphic() {
-        List<PaymentGraphic> paymentGraphicList = new ArrayList<>();
+        paymentGraphicList = new ArrayList<>();
         Long paimentRest;
         double creditMonhtPercent;
         Long creditMonhtPayment;
