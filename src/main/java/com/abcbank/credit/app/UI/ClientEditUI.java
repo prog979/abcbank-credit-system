@@ -34,6 +34,9 @@ public class ClientEditUI extends VerticalLayout {
     private Binder<Client> binder = new Binder<>();
     private CreditOfferService creditOfferService = new CreditOfferService();
 
+    private final String deleteClientErrMessage = "У клиента есть действующие кредитные договоры";
+    private final String addClientErrMessage = "Все поля должны быть заполнены!";
+
     public ClientEditUI(Client client, ClientView clientView) {
         this.client = client;
         setVisible(false);
@@ -69,7 +72,7 @@ public class ClientEditUI extends VerticalLayout {
         email.setPlaceholder("Введите почту");
         email.setWidth(14, Unit.EM);
         pasport_numberField.setPlaceholder("Введите номер паспорта");
-        pasport_numberField.setWidth(8, Unit.EM);
+        pasport_numberField.setWidth(9, Unit.EM);
     }
 
     private void clear() {
@@ -113,7 +116,7 @@ public class ClientEditUI extends VerticalLayout {
                     this.setVisible(false);
                     clear();
                 } else {
-                    delete.setComponentError(new UserError("У клиента есть действующие кредитные договоры"));
+                    delete.setComponentError(new UserError(deleteClientErrMessage));
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -124,7 +127,7 @@ public class ClientEditUI extends VerticalLayout {
     private boolean fieldCheck() {
         if (nameField.isEmpty() || secnameField.isEmpty() || patronymicField.isEmpty() || email.isEmpty()
                 || phone_numberField.isEmpty() || pasport_numberField.isEmpty()) {
-            add.setComponentError(new UserError("Все поля должны быть заполнены!"));
+            add.setComponentError(new UserError(addClientErrMessage));
             return false;
         } else {
             add.setComponentError(null);
