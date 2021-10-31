@@ -27,10 +27,10 @@ public class CreditService {
     private List<Credit> addCredits() throws SQLException {
         List<Credit> credits = new ArrayList<>();
         credits.add(new Credit("Аннуитетный", 50000L, 22));
-        credits.add(new Credit("Срочный", 10000L, 12));
-        credits.add(new Credit("Автокредит", 5500L, 12));
-        credits.add(new Credit("Ипотечный", 10000000L, 7));
-        credits.add(new Credit("Потребительский", 200000L, 12));
+        credits.add(new Credit("Срочный", 10000L, 24));
+        credits.add(new Credit("Автокредит", 600000L, 18));
+        credits.add(new Credit("Ипотечный", 10000000L, 8));
+        credits.add(new Credit("Потребительский", 200000L, 16));
 
         return credits;
     }
