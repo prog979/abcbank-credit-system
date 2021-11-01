@@ -1,5 +1,7 @@
 package com.abcbank.credit.app.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.HashSet;
@@ -9,9 +11,10 @@ import java.util.Set;
 @Table(name = "clients")
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name ="uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(36)")
+    private String id;
     private String secname;
     private String name;
     private String patronymic;
@@ -35,11 +38,11 @@ public class Client {
         this.pasport_number = pasport_number;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
