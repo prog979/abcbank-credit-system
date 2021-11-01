@@ -68,11 +68,11 @@ public class ClientEditUI extends VerticalLayout {
         nameField.setPlaceholder("Введите имя");
         patronymicField.setPlaceholder("Введите отчество");
         phone_numberField.setPlaceholder("Введите номер телефона");
-        phone_numberField.setWidth(8, Unit.EM);
+        phone_numberField.setWidth(12, Unit.EM);
         email.setPlaceholder("Введите почту");
         email.setWidth(14, Unit.EM);
         pasport_numberField.setPlaceholder("Введите номер паспорта");
-        pasport_numberField.setWidth(9, Unit.EM);
+        pasport_numberField.setWidth(14, Unit.EM);
     }
 
     private void clear() {
