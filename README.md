@@ -1,4 +1,4 @@
-#This is a test assignment for a Java Junior Developer.  
+#This is a test assignment for Java Junior Developer.  
 As part of the assignment, a working web application was developed that implements the required functionality.   
   
 ##Technology stack  
