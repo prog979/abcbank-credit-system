@@ -33,7 +33,7 @@ public class CreditEditUI extends VerticalLayout {
     private String INCORRECT_FIELDS_ENTERED_ERROR_MESSAGE = "Поля введены неверно";
     private String CREDIT_PERCENT_ERROR_MESSAGE = "Проценты должны быть больше 0 и меньше 100";
     private String CREDIT_LIMIT_ERROR_MESSAGE = "Лимит кредита должен быть больше нуля";
-    private String DELETE_CREDIT_ERROR_MESSAGE = "У клиента есть действующие кредитные договоры";
+    private String DELETE_CREDIT_ERROR_MESSAGE = "По этому виду кредита есть действующие кредитные договоры";
 
 
     public CreditEditUI(Credit credit, CreditView creditView) {
