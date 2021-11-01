@@ -1,5 +1,7 @@
 package com.abcbank.credit.app.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -7,9 +9,10 @@ import java.util.Set;
 @Table(name = "credit_offers")
 public class CreditOffer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(36)", nullable = false)
+    private String id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "client_Id", nullable = false)
@@ -34,7 +37,7 @@ public class CreditOffer {
         this.months_of_credit = months_of_credit;
     }
 
-       public Long getMonthsOfCredit() {
+    public Long getMonthsOfCredit() {
         return months_of_credit;
     }
 
@@ -51,11 +54,11 @@ public class CreditOffer {
     }
 
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

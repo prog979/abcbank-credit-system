@@ -109,7 +109,7 @@ public class PaymentGraphicDAOImpl implements PaymentGraphicDAO {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Long creditOffer_id = creditOffer.getId();
+            String creditOffer_id = creditOffer.getId();
             Query query = session.createQuery("SELECT graphic FROM PaymentGraphic graphic " +
                     "INNER JOIN graphic.creditOffer offer WHERE offer.id = :creditOffer_id").setParameter("creditOffer_id", creditOffer_id);
             paymentGraphics = (List<PaymentGraphic>) query.list();

@@ -10,10 +10,12 @@ import java.util.Date;
 @Entity
 @Table(name = "payment_schedules")
 public class PaymentGraphic {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-	private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name ="uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(36)",nullable = false)
+	private String id;
  
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "creditOffer_id", nullable = false)
@@ -40,11 +42,11 @@ public class PaymentGraphic {
         this.payment_rest = payment_rest;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

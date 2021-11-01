@@ -22,9 +22,7 @@ public class CreditOfferService {
         LOG.debug("Credit sum" + creditOffer.getCreditSum());
         LOG.debug("Credit_id" + creditOffer.getCredit().getId());
         LOG.debug("Client_id" + creditOffer.getClient().getId());
-//        System.out.println("Credit sum" + creditOffer.getCreditSum());
-//        System.out.println("Credit_id" + creditOffer.getCredit().getId());
-//        System.out.println("Client_id" + creditOffer.getClient().getId());
+
     }
 
     public void updateCreditOffer(CreditOffer creditOffer) throws SQLException {
@@ -47,9 +45,7 @@ public class CreditOfferService {
         return factory.getCreditOffersByClient(client);
     }
 
-    //    public List getCreditOfferByCredit(Credit credit) throws SQLException{
-//        return factory.getCreditOffersByCredit(credit);
-//    }
+
     public List getCreditOfferByCredit(Credit credit) throws SQLException {
         if (credit == null) {
             return getAllCreditOffers();

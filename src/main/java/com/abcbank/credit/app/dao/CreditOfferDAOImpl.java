@@ -133,7 +133,7 @@ public class CreditOfferDAOImpl implements CreditOfferDAO{
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Long credit_id = credit.getId();
+            String credit_id = credit.getId();
             Query query = session.createQuery("SELECT offer FROM CreditOffer offer" +
                     " INNER JOIN offer.credit credit WHERE credit.id = :credit_id").setParameter("credit_id", credit_id);
             creditOffers = (List<CreditOffer>) query.list();

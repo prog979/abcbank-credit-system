@@ -1,5 +1,7 @@
 package com.abcbank.credit.app.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -7,9 +9,10 @@ import java.util.Set;
 @Table(name = "credits")
 public class Credit {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(columnDefinition = "CHAR(36)", nullable = false)
+    private String id;
     private String credit_name;
 
     @Column(nullable = false)
@@ -29,11 +32,11 @@ public class Credit {
         this.percent = percent;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
