@@ -298,7 +298,7 @@ public class CreditOfferEditUI extends VerticalLayout {
             paymentGraphic.setPaymentRest(paimentRest - paymentGraphic.getCreditBody());
             paimentRest -= paymentGraphic.getCreditBody();
             try {
-                System.out.println("График платежей сформирован");
+//                System.out.println("График платежей сформирован");
                 paymentGraphicService.addPaymentGraphic(paymentGraphic);
             } catch (SQLException ex) {
                 ex.printStackTrace();
