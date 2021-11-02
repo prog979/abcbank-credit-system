@@ -16,7 +16,7 @@ As part of the assignment, a working web application was developed that implemen
 1. Run in the command line:
 
 > ```
-> mvn clean, compile, package  
+> mvn clean compile package  
 > mvn jetty:run  
 > ```
 
