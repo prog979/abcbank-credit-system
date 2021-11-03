@@ -3,12 +3,12 @@ As part of the assignment, a working web application was developed that implemen
 
 ## Technology stack
 
-* Java ver.11
-* Maven ver.3.6.3
-* Hibernate ver.5.5.8
-* hsqldb ver.2.6.0
-* Jetty ver.10.0.6
-* git bash ver 2.33.1
+* Java ver. 11
+* Maven ver. 3.6.3
+* Hibernate ver. 5.5.8
+* hsqldb ver. 2.6.0
+* Jetty ver. 10.0.6
+* git bash ver. 2.33
 * Vaadin ver.8.14
 
 ## Build and Run
